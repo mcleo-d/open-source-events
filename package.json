@@ -5,5 +5,9 @@
   "license": "MIT",
   "engines": {
     "node": ">=20"
+  },
+  "scripts": {
+    "build": "mkdir -p dist && echo '<!doctype html><title>open-source-events</title><h1>Scaffolding</h1>' > dist/index.html",
+    "preview": "npx serve dist"
   }
 }
