@@ -1,5 +1,6 @@
 {
   "name": "open-source-events",
+  "type": "module",
   "version": "0.0.1",
   "description": "Aggregator for UK open source conferences",
   "license": "MIT",
@@ -7,7 +8,16 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "mkdir -p dist && echo '<!doctype html><title>open-source-events</title><h1>Scaffolding</h1>' > dist/index.html",
-    "preview": "npx serve dist"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/preact": "^5.1.4",
+    "@astrojs/rss": "^4.0.18",
+    "@astrojs/sitemap": "^3.7.3",
+    "astro": "^6.4.2",
+    "preact": "^10.29.2"
   }
 }
