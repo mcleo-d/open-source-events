@@ -1,0 +1,14 @@
+{
+  "name": "open-source-events",
+  "version": "0.0.1",
+  "description": "Aggregator for UK open source conferences",
+  "licence": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "",
+    "dev": "",
+    "preview": ""
+  }
+}
