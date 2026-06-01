@@ -1,4 +1,6 @@
 ---
+import '../styles/global.css';
+
 interface Props {
   title: string;
   description: string;
@@ -15,7 +17,6 @@ const { title, description, canonicalUrl } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="stylesheet" href="/global.css" />
     <title>{title}</title>
 
     <!-- Open Graph -->
@@ -30,10 +31,21 @@ const { title, description, canonicalUrl } = Astro.props;
     <meta name="twitter:description" content={description} />
 
     <slot name="head" />
+
+    <!-- Set theme before paint to avoid flash -->
+    <script is:inline>
+      (function () {
+        var t = localStorage.getItem('theme');
+        if (t) document.documentElement.setAttribute('data-theme', t);
+      })();
+    </script>
   </head>
   <body>
     <header>
       <a href="/" class="site-title">UK Open Source Events</a>
+      <button id="theme-toggle" class="theme-toggle" aria-pressed="false" aria-label="Enable dark theme">
+        Dark
+      </button>
     </header>
     <main>
       <slot />
@@ -43,5 +55,8 @@ const { title, description, canonicalUrl } = Astro.props;
         <a href="https://github.com/mcleo-d/open-source-events">View on GitHub</a>
       </p>
     </footer>
+    <script>
+      import '../scripts/theme.ts';
+    </script>
   </body>
 </html>
