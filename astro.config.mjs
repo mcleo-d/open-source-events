@@ -6,5 +6,6 @@ import preact from '@astrojs/preact';
 export default defineConfig({
   output: 'static',
   outDir: './dist',
+  compressHTML: false,
   integrations: [preact()],
 });

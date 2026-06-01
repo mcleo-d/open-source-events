@@ -1,8 +1,80 @@
 ---
 import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const allEvents = await getCollection('events');
+
+allEvents.sort((a, b) => a.data.start_date.localeCompare(b.data.start_date));
+
+const todayStr = new Date().toISOString().slice(0, 10);
+const upcoming = allEvents.filter(e => e.data.start_date >= todayStr);
+const past     = allEvents.filter(e => e.data.start_date <  todayStr);
+
+function formatDate(iso: string): string {
+  return new Date(iso + 'T00:00:00Z').toLocaleDateString('en-GB', {
+    day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC',
+  });
+}
+
+function formatDateRange(start: string, end: string): string {
+  const s = formatDate(start);
+  return start === end ? s : `${s} – ${formatDate(end)}`;
+}
 ---
 
 <Base title="UK Open Source Events">
   <h1>UK Open Source Events</h1>
-  <p>Upcoming open source conferences and meetups across the UK.</p>
+  <p class="lead">Upcoming open source conferences and meetups across the United Kingdom.</p>
+
+  {upcoming.length === 0 ? (
+    <p class="empty-state">No upcoming events at the moment. Check back soon.</p>
+  ) : (
+    <ol class="event-list">
+      {upcoming.map(event => (
+        <li>
+          <article class="event-card">
+            <h2 class="event-title">
+              <a href={`/events/${event.id}/`}>{event.data.title}</a>
+            </h2>
+            <p class="event-meta">
+              <time datetime={event.data.start_date}>{formatDateRange(event.data.start_date, event.data.end_date)}</time>
+              <span class="event-meta__sep" aria-hidden="true">·</span>
+              {event.data.city}
+            </p>
+            <p class="event-badges">
+              <span class={`badge badge--${event.data.format}`}>{event.data.format}</span>
+              <span class={`badge badge--${event.data.price}`}>{event.data.price}</span>
+            </p>
+            <p class="event-summary">{event.data.summary}</p>
+          </article>
+        </li>
+      ))}
+    </ol>
+  )}
+
+  {past.length > 0 && (
+    <details class="past-events">
+      <summary>Past events ({past.length})</summary>
+      <ol class="event-list">
+        {past.map(event => (
+          <li>
+            <article class="event-card event-card--past">
+              <h2 class="event-title">
+                <a href={`/events/${event.id}/`}>{event.data.title}</a>
+              </h2>
+              <p class="event-meta">
+                <time datetime={event.data.start_date}>{formatDateRange(event.data.start_date, event.data.end_date)}</time>
+                <span class="event-meta__sep" aria-hidden="true">·</span>
+                {event.data.city}
+              </p>
+              <p class="event-badges">
+                <span class={`badge badge--${event.data.format}`}>{event.data.format}</span>
+                <span class={`badge badge--${event.data.price}`}>{event.data.price}</span>
+              </p>
+            </article>
+          </li>
+        ))}
+      </ol>
+    </details>
+  )}
 </Base>
