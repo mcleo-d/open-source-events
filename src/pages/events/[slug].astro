@@ -1,0 +1,115 @@
+---
+import EventDetail from '../../layouts/EventDetail.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const events = await getCollection('events');
+  return events.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const d = entry.data;
+
+const attendanceModeMap: Record<string, string> = {
+  'in-person': 'https://schema.org/OfflineEventAttendanceMode',
+  'hybrid':    'https://schema.org/MixedEventAttendanceMode',
+  'virtual':   'https://schema.org/OnlineEventAttendanceMode',
+};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: d.title,
+  startDate: d.start_date,
+  endDate: d.end_date,
+  location: {
+    '@type': 'Place',
+    name: d.venue ?? d.city,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: d.city,
+      addressCountry: d.country,
+    },
+  },
+  url: d.url,
+  eventAttendanceMode: attendanceModeMap[d.format],
+  description: d.summary,
+};
+
+function formatDate(iso: string): string {
+  return new Date(iso + 'T00:00:00Z').toLocaleDateString('en-GB', {
+    day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC',
+  });
+}
+
+function formatDateRange(start: string, end: string): string {
+  const s = formatDate(start);
+  return start === end ? s : `${s} – ${formatDate(end)}`;
+}
+
+const pageTitle = `${d.title} — UK Open Source Events`;
+const siteOrigin = 'https://open-source-events.netlify.app';
+const canonicalUrl = `${siteOrigin}/events/${entry.id}/`;
+const githubFileUrl = `https://github.com/mcleo-d/open-source-events/blob/main/src/content/events/${entry.id}.md`;
+---
+
+<EventDetail title={pageTitle} description={d.summary} canonicalUrl={canonicalUrl}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd, null, 2)} />
+
+  <article class="event-detail">
+    <p class="event-detail__back"><a href="/">&larr; All events</a></p>
+
+    <h1 class="event-detail__title">{d.title}</h1>
+
+    <dl class="event-detail__meta">
+      <dt>Dates</dt>
+      <dd>
+        <time datetime={d.start_date}>{formatDateRange(d.start_date, d.end_date)}</time>
+      </dd>
+
+      <dt>Location</dt>
+      <dd>{d.venue ? `${d.venue}, ` : ''}{d.city}, {d.country}</dd>
+
+      <dt>Format</dt>
+      <dd><span class={`badge badge--${d.format}`}>{d.format}</span></dd>
+
+      <dt>Price</dt>
+      <dd><span class={`badge badge--${d.price}`}>{d.price}</span></dd>
+
+      {d.cfp_url && d.cfp_deadline && (
+        <>
+          <dt>CFP deadline</dt>
+          <dd><a href={d.cfp_url}>{d.cfp_deadline}</a></dd>
+        </>
+      )}
+    </dl>
+
+    {d.topics.length > 0 && (
+      <ul class="event-detail__topics" aria-label="Topics">
+        {d.topics.map((topic: string) => (
+          <li class="topic-tag">{topic}</li>
+        ))}
+      </ul>
+    )}
+
+    <p class="event-detail__summary">{d.summary}</p>
+
+    <div class="event-detail__body prose">
+      <Content />
+    </div>
+
+    <p class="event-detail__links">
+      <a href={d.url} class="event-detail__cta">Visit event website</a>
+      {d.cfp_url && <a href={d.cfp_url}>Submit to CFP</a>}
+    </p>
+
+    <p class="event-detail__source">
+      <a href={githubFileUrl}>View source on GitHub</a>
+    </p>
+  </article>
+</EventDetail>
