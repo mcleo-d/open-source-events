@@ -1,0 +1,92 @@
+---
+interface Props {
+  cities: string[];
+  months: string[];
+  topics: string[];
+  formats: string[];
+}
+
+const { cities, months, topics, formats } = Astro.props;
+
+function monthLabel(m: string): string {
+  return new Date(`${m}-01T00:00:00Z`).toLocaleDateString('en-GB', {
+    month: 'long', year: 'numeric', timeZone: 'UTC',
+  });
+}
+---
+
+<form id="filters-form" aria-controls="upcoming-events" aria-label="Filter events" class="filters-form">
+  <div class="filters">
+    <div class="filter-group">
+      <label for="filter-q" class="filter-label">Search</label>
+      <input type="search" id="filter-q" name="q" placeholder="Keyword…" autocomplete="off" class="filter-input" />
+    </div>
+
+    {cities.length > 1 && (
+      <fieldset class="filter-fieldset">
+        <legend class="filter-legend">City</legend>
+        <div class="filter-checks">
+          {cities.map(city => (
+            <label class="check-label">
+              <input type="checkbox" name="city" value={city} />
+              {city}
+            </label>
+          ))}
+        </div>
+      </fieldset>
+    )}
+
+    {months.length > 1 && (
+      <fieldset class="filter-fieldset">
+        <legend class="filter-legend">Month</legend>
+        <div class="filter-checks">
+          {months.map(m => (
+            <label class="check-label">
+              <input type="checkbox" name="month" value={m} />
+              {monthLabel(m)}
+            </label>
+          ))}
+        </div>
+      </fieldset>
+    )}
+
+    {topics.length > 0 && (
+      <fieldset class="filter-fieldset">
+        <legend class="filter-legend">Topic</legend>
+        <div class="filter-checks">
+          {topics.map(topic => (
+            <label class="check-label">
+              <input type="checkbox" name="topic" value={topic} />
+              {topic}
+            </label>
+          ))}
+        </div>
+      </fieldset>
+    )}
+
+    {formats.length > 1 && (
+      <div class="filter-group">
+        <label for="filter-format" class="filter-label">Format</label>
+        <select id="filter-format" name="format" class="filter-select">
+          <option value="">All</option>
+          {formats.map(f => <option value={f}>{f}</option>)}
+        </select>
+      </div>
+    )}
+
+    <div class="filter-group">
+      <label for="filter-price" class="filter-label">Price</label>
+      <select id="filter-price" name="price" class="filter-select">
+        <option value="">All</option>
+        <option value="free">Free</option>
+        <option value="paid">Paid</option>
+      </select>
+    </div>
+  </div>
+
+  <p id="result-count" aria-live="polite" class="result-count"></p>
+</form>
+
+<script>
+  import '../scripts/filters.ts';
+</script>

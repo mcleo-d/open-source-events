@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Filters from '../components/Filters.astro';
 import { getCollection } from 'astro:content';
 
 const allEvents = await getCollection('events');
@@ -20,18 +21,44 @@ function formatDateRange(start: string, end: string): string {
   const s = formatDate(start);
   return start === end ? s : `${s} – ${formatDate(end)}`;
 }
+
+// Build-time event index for client-side filtering
+const eventIndex = allEvents.map(e => ({
+  id: e.id,
+  title: e.data.title,
+  city: e.data.city,
+  month: e.data.start_date.slice(0, 7),
+  topics: e.data.topics,
+  format: e.data.format,
+  price: e.data.price,
+  venue: e.data.venue ?? '',
+  summary: e.data.summary,
+}));
+
+// Generate filter facets from the collection
+const cities   = [...new Set(allEvents.map(e => e.data.city))].sort();
+const months   = [...new Set(allEvents.map(e => e.data.start_date.slice(0, 7)))].sort();
+const topics   = [...new Set(allEvents.flatMap(e => e.data.topics))].sort();
+const formats  = [...new Set(allEvents.map(e => e.data.format))].sort();
+
+// Escape < to < so the JSON is safe inside a <script> element
+const eventIndexJson = JSON.stringify(eventIndex).replace(/</g, '\\u003c');
 ---
 
 <Base title="UK Open Source Events">
   <h1>UK Open Source Events</h1>
   <p class="lead">Upcoming open source conferences and meetups across the United Kingdom.</p>
 
+  <script type="application/json" id="event-index" set:html={eventIndexJson}></script>
+
+  <Filters cities={cities} months={months} topics={topics} formats={formats} />
+
   {upcoming.length === 0 ? (
     <p class="empty-state">No upcoming events at the moment. Check back soon.</p>
   ) : (
-    <ol class="event-list">
+    <ol id="upcoming-events" class="event-list">
       {upcoming.map(event => (
-        <li>
+        <li data-event-id={event.id}>
           <article class="event-card">
             <h2 class="event-title">
               <a href={`/events/${event.id}/`}>{event.data.title}</a>
