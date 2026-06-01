@@ -7,7 +7,7 @@ import { eventSchema } from '../src/lib/event-schema.mjs';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const eventsDir = join(__dirname, '..', 'src', 'content', 'events');
 
-const files = readdirSync(eventsDir).filter(f => f.endsWith('.md'));
+const files = readdirSync(eventsDir).filter(f => f.endsWith('.md') && !f.startsWith('_'));
 
 if (files.length === 0) {
   console.error('No event files found in src/content/events/');

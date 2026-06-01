@@ -76,7 +76,7 @@ This project lists **UK-based** open source events — conferences, summits, and
 
 ## Code of Conduct
 
-This project follows the [Contributor Covenant 2.1](CODE_OF_CONDUCT.md). By participating you agree to abide by its terms. Reports can be sent to [james.mcleod@narvi.co.uk](mailto:james.mcleod@narvi.co.uk).
+This project follows the [Contributor Covenant 2.1](CODE_OF_CONDUCT.md). By participating you agree to abide by its terms. Reports can be filed privately via a [GitHub Security Advisory](https://github.com/mcleo-d/open-source-events/security/advisories/new).
 
 ## Licence
 

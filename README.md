@@ -5,7 +5,7 @@ A markdown-driven aggregator for UK open source conferences, deployed via Netlif
 ## Planned stack
 
 - **Framework:** Astro (static site generator)
-- **Content:** Markdown files with YAML frontmatter under `/content/events/`
+- **Content:** Markdown files with YAML frontmatter under `src/content/events/`
 - **Deployment:** Netlify (auto-deploy from `main`)
 
 ## Status
