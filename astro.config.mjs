@@ -8,4 +8,17 @@ export default defineConfig({
   outDir: './dist',
   compressHTML: false,
   integrations: [preact()],
+  vite: {
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('/src/scripts/filters.ts')) {
+              return 'filters';
+            }
+          },
+        },
+      },
+    },
+  },
 });
