@@ -1,0 +1,9 @@
+{
+  "name": "open-source-events",
+  "version": "0.0.1",
+  "description": "Aggregator for UK open source conferences",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  }
+}
