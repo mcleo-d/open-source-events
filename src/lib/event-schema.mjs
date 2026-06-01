@@ -11,7 +11,12 @@ export const eventSchema = z.object({
   price: z.enum(['free', 'paid']),
   url: z.string().url(),
   summary: z.string(),
+  // organiser taxonomy (added ST-OS-12)
+  organiser: z.string(),
+  organiser_url: z.string().url(),
   // optional fields
+  series: z.string().optional(),
+  co_located_with: z.array(z.string()).optional(),
   venue: z.string().optional(),
   org: z.string().optional(),
   cfp_url: z.string().url().optional(),
