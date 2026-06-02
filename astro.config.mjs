@@ -4,6 +4,7 @@ import preact from '@astrojs/preact';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://open-source-events.netlify.app',
   output: 'static',
   outDir: './dist',
   compressHTML: false,

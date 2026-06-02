@@ -1,16 +1,20 @@
 # open-source-events
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/eb1db3db-800e-48f6-88c1-ac2006767679/deploy-status)](https://app.netlify.com/projects/open-source-events/deploys)
+
 A markdown-driven aggregator for UK open source conferences, deployed via Netlify.
 
-## Planned stack
+## Live site
+
+**[https://open-source-events.netlify.app](https://open-source-events.netlify.app)**
+
+<!-- TODO: custom domain -->
+
+## Stack
 
 - **Framework:** Astro (static site generator)
 - **Content:** Markdown files with YAML frontmatter under `src/content/events/`
 - **Deployment:** Netlify (auto-deploy from `main`)
-
-## Status
-
-Status: scaffolding
 
 ## Contributing
 
