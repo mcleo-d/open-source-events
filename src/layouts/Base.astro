@@ -1,8 +1,8 @@
 ---
 import '../styles/global.css';
 
-interface Props { title: string; }
-const { title } = Astro.props;
+interface Props { title: string; description?: string; }
+const { title, description } = Astro.props;
 ---
 
 <!doctype html>
@@ -13,6 +13,7 @@ const { title } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+    {description && <meta name="description" content={description} />}
     <!-- Set theme before paint to avoid flash -->
     <script is:inline>
       (function () {

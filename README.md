@@ -1,6 +1,7 @@
 # open-source-events
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/eb1db3db-800e-48f6-88c1-ac2006767679/deploy-status)](https://app.netlify.com/projects/open-source-events/deploys)
+[![Quality](https://github.com/mcleo-d/open-source-events/actions/workflows/quality.yml/badge.svg)](https://github.com/mcleo-d/open-source-events/actions/workflows/quality.yml)
 
 A markdown-driven aggregator for UK open source conferences, deployed via Netlify.
 
