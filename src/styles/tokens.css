@@ -1,0 +1,67 @@
+/* ── Design tokens — light mode defaults ─────────────── */
+:root {
+  --color-bg:              #ffffff;
+  --color-text:            #1a1a1a;
+  --color-text-muted:      #555555;
+  --color-text-very-muted: #666666;
+  --color-text-sep:        #aaaaaa;
+  --color-border:          #dddddd;
+  --color-border-input:    #cccccc;
+
+  --badge-in-person-bg:    #d1fae5;
+  --badge-in-person-text:  #065f46;
+  --badge-hybrid-bg:       #dbeafe;
+  --badge-hybrid-text:     #1e40af;
+  --badge-virtual-bg:      #f3f4f6;
+  --badge-virtual-text:    #374151;
+  --badge-free-bg:         #fef9c3;
+  --badge-free-text:       #713f12;
+  --badge-paid-bg:         #f3f4f6;
+  --badge-paid-text:       #374151;
+}
+
+/* ── Dark mode — system preference ──────────────────── */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg:              #111827;
+    --color-text:            #f9fafb;
+    --color-text-muted:      #9ca3af;
+    --color-text-very-muted: #9ca3af;
+    --color-text-sep:        #4b5563;
+    --color-border:          #374151;
+    --color-border-input:    #4b5563;
+
+    --badge-in-person-bg:    #064e3b;
+    --badge-in-person-text:  #6ee7b7;
+    --badge-hybrid-bg:       #1e3a8a;
+    --badge-hybrid-text:     #93c5fd;
+    --badge-virtual-bg:      #374151;
+    --badge-virtual-text:    #d1d5db;
+    --badge-free-bg:         #422006;
+    --badge-free-text:       #fcd34d;
+    --badge-paid-bg:         #374151;
+    --badge-paid-text:       #d1d5db;
+  }
+}
+
+/* ── Dark mode — forced by toggle ───────────────────── */
+[data-theme="dark"] {
+  --color-bg:              #111827;
+  --color-text:            #f9fafb;
+  --color-text-muted:      #9ca3af;
+  --color-text-very-muted: #9ca3af;
+  --color-text-sep:        #4b5563;
+  --color-border:          #374151;
+  --color-border-input:    #4b5563;
+
+  --badge-in-person-bg:    #064e3b;
+  --badge-in-person-text:  #6ee7b7;
+  --badge-hybrid-bg:       #1e3a8a;
+  --badge-hybrid-text:     #93c5fd;
+  --badge-virtual-bg:      #374151;
+  --badge-virtual-text:    #d1d5db;
+  --badge-free-bg:         #422006;
+  --badge-free-text:       #fcd34d;
+  --badge-paid-bg:         #374151;
+  --badge-paid-text:       #d1d5db;
+}
