@@ -53,7 +53,7 @@ function formatDateRange(start: string, end: string): string {
 }
 
 const pageTitle = `${d.title} — UK Open Source Events`;
-const siteOrigin = 'https://open-source-events.netlify.app';
+const siteOrigin = Astro.site?.toString().replace(/\/$/, '') ?? '';
 const canonicalUrl = `${siteOrigin}/events/${entry.id}/`;
 const githubFileUrl = `https://github.com/mcleo-d/open-source-events/blob/main/src/content/events/${entry.id}.md`;
 ---
